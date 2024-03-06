@@ -23,6 +23,7 @@ function App() {
   const [card, setCard] = useState({quote: "", author: ""});
 
   const setNewCard = (maxCardsCount: number) => {
+    console.log('render');
     const cardIndex = Math.floor(Math.random() * maxCardsCount);
     setCard(cardsArray[cardIndex]);
   }
@@ -39,13 +40,19 @@ function App() {
 
   const loadNewCards = (page: number = 1, limit: number = 10) => {
     fetch(loadURL + `?_limit=${ limit }&_page=${ page }`).then((response) => response.json())
-    .then((json) => {setCardsArray(parseResponce(json))});
+    .then((json) => {
+      setCardsArray(parseResponce(json));
+      setNewCard(cardsArray.length);
+    });
   }
 
   useEffect(() => {
     loadNewCards();
-    setNewCard(cardsArray.length);
   }, [])
+
+  // useEffect(() => {
+  //   setNewCard(cardsArray.length);
+  // }, [cardsArray])
 
   return (
     <div className="App">
