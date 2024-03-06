@@ -1,0 +1,15 @@
+.card {
+    padding: 30px;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+}
+
+.card__author {
+    text-align: end;
+}
+
+.card__bottom {
+    display: flex;
+    justify-content: space-between;
+}
