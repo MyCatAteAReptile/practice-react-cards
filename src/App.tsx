@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Card from './components/Card';
-import { CardType } from './types';
+import { CardType, ResponceType } from './types';
 
 
 /*
@@ -11,14 +11,15 @@ Redux для хранения массива карточек ?
 https://vk.com/share.php?comment=1111111
 */
 
-const cardsArray: CardType[] = [
-  {quote: '111111111111111111111111111111111111111111111111111', author: 'a1'},
-  {quote: '22222222222222222222222222222222222222222222222222222', author: 'a2'},
-  {quote: '333333333333333333333333333333333333333333333333333333', author: 'a3'},
-  {quote: '444444444444444444444444444444444444444444444444444', author: 'a4'}
-];
-
 function App() {
+  const loadURL = 'https://jsonplaceholder.typicode.com/posts';
+  
+  const initialCardsArray: CardType[] = [
+    {quote: '', author: ''},
+  ];
+
+  const [cardsArray, setCardsArray] = useState(initialCardsArray);
+
   const [card, setCard] = useState({quote: "", author: ""});
 
   const setNewCard = (maxCardsCount: number) => {
@@ -26,16 +27,35 @@ function App() {
     setCard(cardsArray[cardIndex]);
   }
 
+  const parseResponce = (responce: ResponceType[]) => {
+    const result: CardType[] = [];
+
+    responce.forEach(element => {
+      result.push({quote: element.body, author: element.title});
+    });
+
+    return result;
+  }
+
+  const loadNewCards = (page: number = 1, limit: number = 10) => {
+    fetch(loadURL + `?_limit=${ limit }&_page=${ page }`).then((response) => response.json())
+    .then((json) => {setCardsArray(parseResponce(json))});
+  }
+
   useEffect(() => {
+    loadNewCards();
     setNewCard(cardsArray.length);
   }, [])
 
   return (
     <div className="App">
+      {cardsArray.length !== 1 ? 
       <Card 
         card={ card }
         setNewCard={ () => {setNewCard(cardsArray.length)} }
       />
+      :
+      "Грузин"}
     </div>
   );
 }

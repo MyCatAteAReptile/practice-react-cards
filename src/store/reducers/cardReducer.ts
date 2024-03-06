@@ -1,7 +1,7 @@
-import { cardActionTypes } from "../../types"
+import { CardActionTypes, CardActionsType, CardStateType } from "../../types"
 
-export const cardReducer = (state, action) => {
+export const cardReducer = (state: CardStateType, action: CardActionsType) => {
     switch (action.type) { 
-        case FETCH_CARDS: return {}
+        case CardActionTypes.FETCH_CARDS: return {}
     }
 }
