@@ -79,6 +79,6 @@
     opacity: 0.5;
 }
 
-.card__buttons:focus-visible {
+.card__buttons:focus-within {
     opacity: 0.5;
 }
