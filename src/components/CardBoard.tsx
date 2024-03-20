@@ -7,6 +7,8 @@ import styles from './CardBoard.module.css'
 import classNames from 'classnames/bind';
 import { themeSlice } from '../store/reducers/ThemeSlice';
 
+// перенести получение текста в саму карточку? или нет
+
 const CardBoard = () => {
   const classes = classNames.bind(styles);
 
@@ -25,7 +27,7 @@ const CardBoard = () => {
       themeSlice.actions.setColor(
         '#' + (Math.random().toString(16) + 'fffff0').substring(2, 8).toUpperCase()
       )
-    )
+    );
   }
 
   useEffect(() => {
@@ -37,20 +39,20 @@ const CardBoard = () => {
   }, [cards])
 
   return (
-    <div className={classes({ cardboard: true, })} style={{ backgroundColor: color, color: color, transitionDuration: '0.1' }}>
+    <div className={classes({ cardboard: true })} style={{ backgroundColor: color }}>
       {
         isLoading
           ?
-          <p>Карточки загружаются</p>
+          <p>Карточки загружаются...</p>
           :
-          error !== null
+          error === null
             ?
-            <p>{error}</p>
-            :
             <Card
               card={card}
               setNewCard={() => { setNewCard(cards) }}
             />
+            :
+            <p>{error}</p>
       }
     </div>
   )

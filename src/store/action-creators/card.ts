@@ -8,10 +8,13 @@ export const fetchCards = () => {
         try {
             dispatch(cardSlice.actions.cardsFetch());
             const cards = parseResponse(await CardService.getAll());
-            dispatch(cardSlice.actions.cardsFetchSuccess(cards));
+            setTimeout(() => {
+                dispatch(cardSlice.actions.cardsFetchSuccess(cards));
+            }, 5000);
+           
         } catch (error) {
             console.log(error);
-            dispatch(cardSlice.actions.cardsFetchError("Ошибка при загрузке карточек"));
+            dispatch(cardSlice.actions.cardsFetchError("Ошибка при загрузке карточек."));
         }
     }
 }

@@ -14,7 +14,7 @@ const Card = ({ card = { quote: "", author: "" }, setNewCard }: CardProps) => {
   console.log(card);
   const { color } = useAppSelector(state => state.themeReducer);
   const autorName: string = makeAuthorName(card.author);
-  const quote: string = card.quote.charAt(0).toUpperCase() + card.quote.slice(1) + '.'; 
+  const quote: string = card.quote.charAt(0).toUpperCase() + card.quote.slice(1) + '.';
 
   const classes = classNames.bind(styles);
   const vkLink: string = `https://vk.com/share.php?comment=${quote} (${autorName})`
@@ -39,12 +39,12 @@ const Card = ({ card = { quote: "", author: "" }, setNewCard }: CardProps) => {
   return (
     <div className={classes({ card: true })}>
       <div ref={textRef}>
-        <p className={classes({ 'card__quote': true })}>{quote}</p>
-        <p className={classes({ 'card__author': true })}>- {autorName}</p>
+        <p className={classes({ 'card__quote': true })} style={{ color: color }}>{quote}</p>
+        <p className={classes({ 'card__author': true })} style={{ color: color }}>- {autorName}</p>
       </div>
       <div className={classes({ card__bottom: true })}>
-        <a className={ classes({ 'card__link': true, 'card__buttons': true }) } style={{ backgroundColor: color }} href={vkLink} aria-label='Запостить цитату в Вконтакте'></a>
-        <button className={ classes({ 'card__button-new-card': true, 'card__buttons': true }) } style={{ backgroundColor: color }} onClick={handleClick} aria-label='Новая цитата'>Новая цитата</button>
+        <a className={classes({ 'card__link': true, 'card__buttons': true })} style={{ backgroundColor: color }} href={vkLink} aria-label='Запостить цитату в Вконтакте'></a>
+        <button className={classes({ 'card__button-new-card': true, 'card__buttons': true })} style={{ backgroundColor: color }} onClick={handleClick}>Новая цитата</button>
       </div>
     </div>
   )
