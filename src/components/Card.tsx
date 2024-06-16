@@ -7,17 +7,16 @@ import { useAppSelector } from '../hooks/redux';
 
 type CardProps = {
   card: CardType,
-  setNewCard: Function
+  setNewCard: Function,
+  color: string
 };
 
-const Card = ({ card = { quote: "", author: "" }, setNewCard }: CardProps) => {
-  console.log(card);
-  const { color } = useAppSelector(state => state.themeReducer);
-  const autorName: string = makeAuthorName(card.author);
+const Card = ({ card = { quote: "", author: "" }, setNewCard, color }: CardProps) => {
+  const authorName: string = makeAuthorName(card.author);
   const quote: string = card.quote.charAt(0).toUpperCase() + card.quote.slice(1) + '.';
 
   const classes = classNames.bind(styles);
-  const vkLink: string = `https://vk.com/share.php?comment=${quote} (${autorName})`
+  const vkLink: string = `https://vk.com/share.php?comment=${quote} (${authorName})`
 
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -39,8 +38,8 @@ const Card = ({ card = { quote: "", author: "" }, setNewCard }: CardProps) => {
   return (
     <div className={classes({ card: true })}>
       <div ref={textRef}>
-        <p className={classes({ 'card__quote': true })} style={{ color: color }}>{quote}</p>
-        <p className={classes({ 'card__author': true })} style={{ color: color }}>- {autorName}</p>
+        <p className={classes({ 'card__quote': true })} style={{ color }}>{quote}</p>
+        <p className={classes({ 'card__author': true })} style={{ color }}>- {authorName}</p>
       </div>
       <div className={classes({ card__bottom: true })}>
         <a className={classes({ 'card__link': true, 'card__buttons': true })} style={{ backgroundColor: color }} href={vkLink} aria-label='Запостить цитату в Вконтакте'></a>

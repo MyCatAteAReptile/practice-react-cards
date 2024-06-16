@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import styles from './CardBoard.module.css'
 import classNames from 'classnames/bind';
 import { themeSlice } from '../store/reducers/ThemeSlice';
+import { generateRandomColor } from '../utils';
 
 // перенести получение текста в саму карточку? или нет
 
@@ -16,18 +17,14 @@ const CardBoard = () => {
   const loadCards = fetchCards();
 
   const { isLoading, cards, error } = useAppSelector(state => state.cardReducer);
-  const { color } = useAppSelector(state => state.themeReducer);
+  //const { color } = useAppSelector(state => state.themeReducer);
 
   const [card, setCard] = useState({ quote: "", author: "" });
+  const color = generateRandomColor();
 
   const setNewCard = (array: CardType[]) => {
     const cardIndex = Math.floor(Math.random() * (array.length - 1));
     setCard(array[cardIndex]);
-    dispatch(
-      themeSlice.actions.setColor(
-        '#' + (Math.random().toString(16) + 'fffff0').substring(2, 8).toUpperCase()
-      )
-    );
   }
 
   useEffect(() => {
@@ -50,6 +47,7 @@ const CardBoard = () => {
             <Card
               card={card}
               setNewCard={() => { setNewCard(cards) }}
+              color={color}
             />
             :
             <p>{error}</p>

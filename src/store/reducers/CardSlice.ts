@@ -17,6 +17,7 @@ export const cardSlice = createSlice({
         cardsFetchSuccess: (state: CardState, action: PayloadAction<CardType[]>) => {
             state.isLoading = false;
             state.cards = action.payload;
+            state.error = null;
         },
         cardsFetchError: (state: CardState, action: PayloadAction<string>) => {
             state.isLoading = false;

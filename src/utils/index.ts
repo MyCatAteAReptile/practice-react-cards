@@ -1,6 +1,16 @@
-import { CardType, ResponceType } from "../types";
+import { CardType, ResponseType } from "../types";
 
-export const parseResponse = (responce: ResponceType[] | undefined) => {
+const colors: string[] = [
+  "#57290c",
+  "#0c5747",
+  "#0c3857",
+  "#1eb019",
+  "#570c30",
+  "#570c0c",
+  "#570c0c"
+];
+
+export const parseResponse = (responce: ResponseType[] | undefined) => {
   const result: CardType[] = [];
 
   if (responce !== undefined) {
@@ -23,3 +33,9 @@ export const makeAuthorName = (string: string): string => {
 
   return name.slice(0, -1);
 } 
+
+export const generateRandomColor = () => {  
+  const randomIndex = Math.floor(Math.random() * colors.length);
+
+  return colors[randomIndex];
+}

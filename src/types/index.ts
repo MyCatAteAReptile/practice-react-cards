@@ -16,7 +16,7 @@ type fetchCardsAction = {
 
 type fetchCardsSuccessAction = {
     type: CardActionTypes.FETCH_CARDS_SUCCESS,
-    payload: any[]
+    payload: CardType[]
 }
 
 type fetchCardsErrorAction = {
@@ -28,7 +28,7 @@ export type CardAction = fetchCardsAction | fetchCardsSuccessAction | fetchCards
 
 export type CardState = { cards: CardType[], isLoading: boolean, error: null | string }
 
-export type ResponceType = { body: string, id: number, title: string, userId: string }
+export type ResponseType = { body: string, id: number, title: string, userId: string }
 
 type changeColorAction = { 
     type: ThemeActionTypes.SET_COLOR, 
