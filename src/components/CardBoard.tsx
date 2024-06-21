@@ -1,59 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import classNames from 'classnames/bind';
 import Card from './Card';
 import { CardType } from '../types';
-import { fetchCards } from '../store/action-creators/card';
+import fetchCards from '../store/action-creators/card';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import styles from './CardBoard.module.css'
-import classNames from 'classnames/bind';
-import { themeSlice } from '../store/reducers/ThemeSlice';
-import { generateRandomColor } from '../utils';
-
-// перенести получение текста в саму карточку? или нет
+import styles from './CardBoard.module.css';
+import { getRandomColor } from '../utils';
+import colors from '../colors';
 
 const CardBoard = () => {
-  const classes = classNames.bind(styles);
+    const classes = classNames.bind(styles);
+    const defaultColor = '#000000';
 
-  const dispatch = useAppDispatch();
-  const loadCards = fetchCards();
+    const dispatch = useAppDispatch();
 
-  const { isLoading, cards, error } = useAppSelector(state => state.cardReducer);
-  //const { color } = useAppSelector(state => state.themeReducer);
+    const loadCards = useCallback(() => {
+        dispatch(fetchCards());
+    }, [dispatch]);
 
-  const [card, setCard] = useState({ quote: "", author: "" });
-  const color = generateRandomColor();
+    const { isLoading, cards, error } = useAppSelector(
+        (state) => state.cardReducer,
+    );
 
-  const setNewCard = (array: CardType[]) => {
-    const cardIndex = Math.floor(Math.random() * (array.length - 1));
-    setCard(array[cardIndex]);
-  }
+    const [card, setCard] = useState({ quote: '', author: '' });
+    const [color, setColor] = useState(defaultColor);
 
-  useEffect(() => {
-    loadCards(dispatch);
-  }, [])
+    const getNewRandomColor = useCallback((currentColor: string) => {
+        let newColor = getRandomColor(colors);
 
-  useEffect(() => {
-    setNewCard(cards);
-  }, [cards])
+        while (currentColor === newColor) {
+            newColor = getRandomColor(colors);
+        }
 
-  return (
-    <div className={classes({ cardboard: true })} style={{ backgroundColor: color }}>
-      {
-        isLoading
-          ?
-          <p>Карточки загружаются...</p>
-          :
-          error === null
-            ?
-            <Card
-              card={card}
-              setNewCard={() => { setNewCard(cards) }}
-              color={color}
-            />
-            :
-            <p>{error}</p>
-      }
-    </div>
-  )
-}
+        return newColor;
+    }, []);
 
-export default CardBoard
+    const fillNewCard = useCallback(
+        (array: CardType[]) => {
+            const cardIndex = Math.floor(Math.random() * array.length);
+            setCard(array[cardIndex]);
+            setColor((prevColor) => getNewRandomColor(prevColor));
+        },
+        [getNewRandomColor],
+    );
+
+    useEffect(() => {
+        loadCards();
+    }, [loadCards]);
+
+    useEffect(() => {
+        if (cards.length > 0) {
+            fillNewCard(cards);
+        }
+    }, [cards, fillNewCard]);
+
+    return (
+        <div
+            className={classes('cardboard')}
+            style={{ backgroundColor: color }}
+        >
+            {isLoading && <p>Карточки загружаются...</p>}
+
+            {!isLoading && error === null ? (
+                <Card
+                    card={card}
+                    fillNewCard={() => {
+                        fillNewCard(cards);
+                    }}
+                    color={color}
+                />
+            ) : (
+                <p>{error}</p>
+            )}
+        </div>
+    );
+};
+
+export default CardBoard;

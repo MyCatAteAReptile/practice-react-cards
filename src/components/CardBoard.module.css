@@ -4,10 +4,9 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-    background-color: blanchedalmond;
-    transition: all 1s ease-out allow-discrete;
-  }
+    transition: all 1.4s ease-out allow-discrete;
+}
 
 .cardboard p {
-  color: #ffffff;
+    color: #ffffff;
 }
