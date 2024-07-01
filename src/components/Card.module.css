@@ -62,6 +62,7 @@
     padding-left: 14px;
     padding-right: 14px;
     color: #ffffff;
+    user-select: none;
 }
 
 .card__buttons {

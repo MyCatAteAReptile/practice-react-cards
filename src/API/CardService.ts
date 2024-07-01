@@ -1,14 +1,23 @@
-import { ResponseType } from '../types';
+import { ResponseType, isResponseType } from '../types';
 
 export default class CardService {
-    static async getAll(page: number = 1, limit: number = 10) {
-        const response: ResponseType[] = await fetch(
-            `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`,
-        )
-            .then((rawResponse) => rawResponse.json())
-            .catch((error) => {
-                throw error;
-            });
-        return response;
+    static async getAll() {
+        const rawResponse = await fetch(
+            `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=1`,
+        );
+
+        if (!rawResponse.ok) {
+            throw new Error(
+                `Не удалось загрузить карточки: ${rawResponse.status} ${rawResponse.statusText}`,
+            );
+        }
+
+        const data = await rawResponse.json();
+
+        if (!Array.isArray(data) || !data.every(isResponseType)) {
+            throw new Error('Неверный формат данных');
+        }
+
+        return data as ResponseType[];
     }
 }

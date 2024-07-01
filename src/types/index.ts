@@ -39,8 +39,16 @@ export type ResponseType = {
     body: string;
     id: number;
     title: string;
-    userId: string;
+    userId: number;
 };
+
+export const isResponseType = (obj: any): obj is ResponseType =>
+    obj != null &&
+    typeof obj === 'object' &&
+    typeof obj.body === 'string' &&
+    typeof obj.id === 'number' &&
+    typeof obj.title === 'string' &&
+    typeof obj.userId === 'number';
 
 type changeColorAction = {
     type: ThemeActionTypes.SET_COLOR;
