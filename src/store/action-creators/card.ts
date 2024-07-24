@@ -14,7 +14,8 @@ const fetchCards = () => async (dispatch: AppDispatch) => {
 
         dispatch(
             cardSlice.actions.cardsFetchError(
-                `Ошибка при загрузке карточек:\n${errorMessage}`,
+                `Ошибка при загрузке карточек:
+                ${errorMessage}`,
             ),
         );
     }

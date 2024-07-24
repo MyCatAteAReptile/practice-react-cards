@@ -59,7 +59,9 @@ const CardBoard = () => {
             className={classes('cardboard')}
             style={{ backgroundColor: color }}
         >
-            {isLoading && <p>Карточки загружаются...</p>}
+            {isLoading && (
+                <p className={classes('message')}>Карточки загружаются...</p>
+            )}
 
             {!isLoading && error === null ? (
                 <Card
@@ -70,7 +72,7 @@ const CardBoard = () => {
                     color={color}
                 />
             ) : (
-                <p>{error}</p>
+                <p className={classes('message')}>{error}</p>
             )}
         </div>
     );

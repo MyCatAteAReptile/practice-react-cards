@@ -7,7 +7,7 @@
     transition: all 1.4s ease-out allow-discrete;
 }
 
-.cardboard p {
+.cardboard .message {
     color: #ffffff;
     white-space: pre-line;
 }
