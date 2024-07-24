@@ -1,5 +1,7 @@
-Random quotes app
-
+Онлайн-цитатник
 - React
-- Redux
 - TypeScript
+- CSS Modules
+- Classnames
+- Redux (Redux Toolkit)
+- фейковый бэкенд (JSONPlaceholder) с запросами Fetch API
